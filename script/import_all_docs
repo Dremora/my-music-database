@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+var dotenv = require('dotenv')
+var cradle = require('cradle')
+var elasticsearch = require('elasticsearch')
+
+dotenv.load()
+
+var couchdbConfig = {
+  secure: process.env.COUCHDB_PROTOCOL === 'https',
+  host: process.env.COUCHDB_HOST,
+  port: process.env.COUCHDB_PORT,
+  username: process.env.COUCHDB_USERNAME,
+  password: process.env.COUCHDB_PASSWORD
+}
+
+var elasticsearchConfig = {
+  url: process.env.ELASTICSEARCH_URL
+}
+
+var couchdbConnection = new(cradle.Connection)(couchdbConfig.host, couchdbConfig.port , {
+  secure: couchdbConfig.secure,
+  cache: false,
+  auth: { username: couchdbConfig.username, password: couchdbConfig.password }
+})
+
+var elasticsearchClient = new elasticsearch.Client({
+  host: elasticsearchConfig.url
+})
+
+var db = couchdbConnection.database('albums')
+
+db.all({include_docs: true}, function (err, res) {
+  if (err) {
+    console.error('Error querying all data', err)
+    return
+  }
+  var actions = []
+  res.forEach(function (row) {
+    if (row._id.match(/_design/)) {
+      return
+    }
+    actions.push({ index: { _index: 'music', _type: 'album', _id: row._id } })
+    if (row.artist) {
+      row.artist_ngram = row.artist
+    }
+    actions.push(row)
+  })
+  elasticsearchClient.bulk({
+    body: actions
+  })
+  .then(function (status) {
+    console.log('Successfully imported data to ElasticSearch', JSON.stringify(status))
+  })
+  .catch(function (e) {
+    console.error('Could not import data to ElasticSearch', e)
+  })
+})
+

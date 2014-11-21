@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+. .env
+
+expected_vars=( COUCHDB_PROTOCOL COUCHDB_HOST COUCHDB_PORT COUCHDB_USERNAME COUCHDB_PASSWORD ELASTICSEARCH_URL )
+for var in "${expected_vars[@]}"; do
+  if [ -z "${!var}" ]; then
+    echo "$var not specified. Please add it to .env file"
+    exit 1
+  fi
+done
+
+export COUCHDB_PROTOCOL
+export COUCHDB_HOST
+export COUCHDB_PORT
+export COUCHDB_USERNAME
+export COUCHDB_PASSWORD
+export COUCHDB_URL="$COUCHDB_PROTOCOL://$COUCHDB_USERNAME:$COUCHDB_PASSWORD@$COUCHDB_HOST:$COUCHDB_PORT"
+export ELASTICSEARCH_URL

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+. script/env_setup
+
+node_modules/couchapp/bin.js push albums.js $COUCHDB_URL/albums
