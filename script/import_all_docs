@@ -50,7 +50,7 @@ db.all({include_docs: true}, function (err, res) {
     body: actions
   })
   .then(function (status) {
-    console.log('Successfully imported data to ElasticSearch', JSON.stringify(status))
+    console.log('Successfully imported data to ElasticSearch')
   })
   .catch(function (e) {
     console.error('Could not import data to ElasticSearch', e)
