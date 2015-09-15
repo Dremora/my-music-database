@@ -4,4 +4,5 @@ set -e
 
 . script/env_setup
 
+curl -X PUT $COUCHDB_URL/albums
 node_modules/couchapp/bin.js push albums.js $COUCHDB_URL/albums
