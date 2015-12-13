@@ -7,8 +7,7 @@ set -e
 curl -X DELETE "${ELASTICSEARCH_URL}/music"
 echo
 
-curl -X PUT "${ELASTICSEARCH_URL}/music" -d '
-{
+curl -X PUT "${ELASTICSEARCH_URL}/music" -d '{
     "settings": {
         "number_of_shards": 1,
         "analysis": {
@@ -45,11 +44,13 @@ curl -X PUT "${ELASTICSEARCH_URL}/music" -d '
             "properties": {
                 "title": {
                     "type": "string",
+                    "analyzer":  "autocomplete",
                     "index_analyzer":  "autocomplete",
                     "search_analyzer": "folding"
                 },
                 "artist_ngram": {
                     "type": "string",
+                    "analyzer":  "autocomplete",
                     "index_analyzer":  "autocomplete",
                     "search_analyzer": "folding"
                 },
@@ -58,6 +59,7 @@ curl -X PUT "${ELASTICSEARCH_URL}/music" -d '
                 },
                 "year": {
                     "type": "integer",
+                    "analyzer":  "autocomplete",
                     "index_analyzer":  "autocomplete",
                     "search_analyzer": "folding"
                 }

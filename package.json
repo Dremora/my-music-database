@@ -2,12 +2,12 @@
   "name": "my-music-database",
   "version": "0.0.0",
   "devDependencies": {
+    "couchapp": "~0.10.0",
     "cradle": "^0.6.7",
     "dotenv": "^0.4.0",
-    "elasticsearch": "^2.4.3",
-    "couchapp": "~0.10.0"
+    "elasticsearch": "^10.0.1"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": "5.2.0"
   }
 }
