@@ -41,9 +41,6 @@ db.all({include_docs: true}, function (err, res) {
       return
     }
     actions.push({ index: { _index: 'music', _type: 'album', _id: row._id } })
-    if (row.artist) {
-      row.artist_ngram = row.artist
-    }
     actions.push(row)
   })
   elasticsearchClient.bulk({

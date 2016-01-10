@@ -47,13 +47,10 @@ curl -X PUT "${ELASTICSEARCH_URL}/music" -d '{
                     "index_analyzer":  "autocomplete",
                     "search_analyzer": "folding"
                 },
-                "artist_ngram": {
+                "artist": {
                     "type": "string",
                     "index_analyzer":  "autocomplete",
                     "search_analyzer": "folding"
-                },
-                "artist": {
-                    "type": "string"
                 },
                 "year": {
                     "type": "integer",
