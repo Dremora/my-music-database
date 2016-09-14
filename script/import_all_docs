@@ -37,10 +37,12 @@ db.all({include_docs: true}, function (err, res) {
   }
   var actions = []
   res.forEach(function (row) {
-    if (row._id.match(/_design/)) {
+    var id = row._id;
+    if (id.match(/_design/)) {
       return
     }
-    actions.push({ index: { _index: 'music', _type: 'album', _id: row._id } })
+    delete row._id;
+    actions.push({ index: { _index: 'music', _type: 'album', _id: id } })
     actions.push(row)
   })
   elasticsearchClient.bulk({

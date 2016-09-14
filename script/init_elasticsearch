@@ -44,17 +44,17 @@ curl -X PUT "${ELASTICSEARCH_URL}/music" -d '{
             "properties": {
                 "title": {
                     "type": "string",
-                    "index_analyzer":  "autocomplete",
+                    "analyzer":  "autocomplete",
                     "search_analyzer": "folding"
                 },
                 "artist": {
                     "type": "string",
-                    "index_analyzer":  "autocomplete",
+                    "analyzer":  "autocomplete",
                     "search_analyzer": "folding"
                 },
                 "year": {
-                    "type": "integer",
-                    "index_analyzer":  "autocomplete",
+                    "type": "string",
+                    "analyzer":  "autocomplete",
                     "search_analyzer": "folding"
                 }
             }
